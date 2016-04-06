@@ -1,6 +1,10 @@
+
 from Resample import *
-import numpy as np
 import pylab as pl
+import numpy as np
+'''
+import numpy as np
+
 
 (dataMat,Classlabel,point)=LoadSimpData()
 class1_x=[]
@@ -50,3 +54,35 @@ else :
 #pl.plot(class1_x,class1_y,label="$N(1,1)$",color="red",linewidth=2)
 
 pl.show()# show the plot on the screen
+'''
+
+'''
+bagging 回归测试
+'''
+numbers=500
+x=[random.uniform(0,3) for i in range(numbers)]
+y=[x[i]*1+random.random() for i in range(numbers)]
+point=[[x[i],y[i]] for i in range(numbers)]
+pl.xlim(0.0, 3.0)# set axis limits
+pl.ylim(0.0, 3.0)
+pl.plot(x, y,'or')# use pylab to plot x and y
+point_x=np.linspace(0.0,3,2)
+
+def test(point,numIt):
+    bagClass=bagging_regression(point,numIt)
+    k=b=0
+    for i in range(len(bagClass)):
+        k+=bagClass[i][0]
+        b+=bagClass[i][1]
+    k=k/len(bagClass)
+    b=b/len(bagClass)
+    point_y=k*point_x+b
+    return point_y
+
+pl.plot(point_x,test(point,100),label="$10$",color="red",linewidth=2)
+pl.plot(point_x,test(point,200),label="$20$",color="blue",linewidth=2)
+pl.plot(point_x,test(point,500),label="$50$",color="green",linewidth=2)
+pl.plot(point_x,test(point,1000),label="$50$",color="yellow",linewidth=2)
+pl.show()
+
+
